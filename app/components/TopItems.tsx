@@ -3,7 +3,7 @@ import { apiRequest } from "../utils/req";
 import { useEffect, useState } from "react";
 import { useStorageState } from "../hooks/useStorageState";
 import TimeFrameSelector from "./TimeFrameSelector";
-import ScrollWrapper from "./ScrollWrapper";
+import ScreenWrapper from "./ScreenWrapper";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 
 interface TopItemsProps {
@@ -47,7 +47,7 @@ export default function TopItems({ baseUrl, renderItem }: TopItemsProps) {
   });
 
   return (
-    <ScrollWrapper>
+    <ScreenWrapper>
       <FlatList
         data={items}
         renderItem={({ item, index }) => renderItem(item, index)}
@@ -61,6 +61,6 @@ export default function TopItems({ baseUrl, renderItem }: TopItemsProps) {
         ListEmptyComponent={<ActivityIndicator size="large" color="#00ff00" />}
         showsVerticalScrollIndicator={false}
       />
-    </ScrollWrapper>
+    </ScreenWrapper>
   );
 }

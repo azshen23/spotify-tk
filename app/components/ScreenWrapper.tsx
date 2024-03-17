@@ -6,14 +6,14 @@ interface SafeViewProps {
   children: React.ReactNode;
 }
 
-const ScrollWrapper: React.FC<SafeViewProps> = ({ children }) => {
+const ScreenWrapper: React.FC<SafeViewProps> = ({ children }) => {
   return (
     <View className="flex-1 bg-tertiary">
       <SafeAreaView className="flex-1" edges={["top"]}>
-        <View className="bg-tertiary pl-7 pr-7">{children}</View>
+        <View className="pl-7 pr-7">{children}</View>
       </SafeAreaView>
     </View>
   );
 };
 
-export default ScrollWrapper;
+export default ScreenWrapper;

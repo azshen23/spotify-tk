@@ -45,6 +45,15 @@ export default function TabLayout() {
           unmountOnBlur: true,
         }}
       />
+      <Tabs.Screen
+        name="You"
+        options={{
+          title: "You",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons size={28} name="person" color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

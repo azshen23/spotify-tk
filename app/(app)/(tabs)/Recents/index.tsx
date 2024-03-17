@@ -1,7 +1,7 @@
 import { ActivityIndicator, FlatList } from "react-native";
 import { useStorageState } from "../../../hooks/useStorageState";
 import { apiRequest } from "../../../utils/req";
-import ScrollWrapper from "../../../components/ScrollWrapper";
+import ScreenWrapper from "../../../components/ScreenWrapper";
 import { useQuery } from "react-query";
 import MusicItem from "../../../components/MusicItem";
 
@@ -52,7 +52,7 @@ const Recents = () => {
   );
 
   return (
-    <ScrollWrapper>
+    <ScreenWrapper>
       <FlatList
         className="pt-10"
         data={items}
@@ -61,7 +61,7 @@ const Recents = () => {
         ListEmptyComponent={<ActivityIndicator size="large" color="#00ff00" />}
         showsVerticalScrollIndicator={false}
       />
-    </ScrollWrapper>
+    </ScreenWrapper>
   );
 };
 
