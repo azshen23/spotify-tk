@@ -1,6 +1,7 @@
 import { Redirect, Stack } from "expo-router";
 import { Text } from "react-native";
 import { useSession } from "../../ctx";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
@@ -19,5 +20,11 @@ export default function AppLayout() {
   }
 
   // This layout can be deferred because it's not the root layout.
-  return <Stack />;
+  return (
+    <SafeAreaProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+    </SafeAreaProvider>
+  );
 }

@@ -1,18 +1,21 @@
 import { refreshAsync } from "expo-auth-session";
 import { useStorageState } from "../hooks/useStorageState";
+import { TopArtistsResponseType } from "../types/types";
 
 export const discovery = {
   authorizationEndpoint: "https://accounts.spotify.com/authorize",
   tokenEndpoint: "https://accounts.spotify.com/api/token",
 };
 
-export async function apiRequest(url: string) {
-  const [[, accessTokenExpiresAt], setAccessTokenExpiresAt] = useStorageState(
-    "accessTokenExpiresAt"
-  );
-  const [[, refreshToken], setRefreshToken] = useStorageState("refreshToken");
-  const [[, session], setSession] = useStorageState("session");
-
+export async function apiRequest(
+  url: string,
+  accessTokenExpiresAt: string,
+  setAccessTokenExpiresAt: (value: string) => void,
+  refreshToken: string,
+  setRefreshToken: (value: string) => void,
+  session: string,
+  setSession: (value: string) => void
+): Promise<TopArtistsResponseType | Error> {
   const refreshTheToken = async () => {
     refreshAsync(
       {
@@ -35,18 +38,17 @@ export async function apiRequest(url: string) {
   // If the access token has expired, refresh it
   if (new Date().getTime() / 1000 > Number(accessTokenExpiresAt)) {
     await refreshTheToken();
-  } else {
-    fetch(url, {
+  }
+
+  try {
+    const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${session}`,
       },
-    })
-      .then((response) => {
-        console.log(response);
-        return response.json();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    });
+
+    return await response.json();
+  } catch (e) {
+    return e;
   }
 }
