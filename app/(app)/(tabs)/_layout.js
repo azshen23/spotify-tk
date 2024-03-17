@@ -1,5 +1,4 @@
 import React from "react";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
@@ -7,7 +6,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "blue",
+        tabBarActiveTintColor: "#1db954",
         headerShown: false,
         tabBarStyle: {
           backgroundColor: "#121212",

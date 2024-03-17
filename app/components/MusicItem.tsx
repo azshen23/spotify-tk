@@ -2,12 +2,12 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 
 interface MusicItemProps {
-  item: any; // Replace 'any' with the actual type
-  imageUri: string;
+  item: any;
+  imageSrc: any;
   count: number;
 }
 
-const MusicItem: React.FC<MusicItemProps> = ({ item, imageUri, count }) => {
+const MusicItem: React.FC<MusicItemProps> = ({ item, imageSrc, count }) => {
   return (
     <View className="border bg-secondary mb-4 rounded-md flex-row overflow-hidden relative">
       <Text
@@ -21,8 +21,12 @@ const MusicItem: React.FC<MusicItemProps> = ({ item, imageUri, count }) => {
       >
         {count + 1}
       </Text>
-      {item && imageUri ? (
-        <Image source={{ uri: imageUri }} width={100} height={100} />
+      {imageSrc.images && imageSrc.images[0] && imageSrc.images[0].url ? (
+        <Image
+          source={{ uri: imageSrc.images[0].url }}
+          width={100}
+          height={100}
+        />
       ) : (
         <Image width={100} height={100} className=" bg-slate-400" />
       )}
