@@ -11,6 +11,7 @@ export default function Tracks() {
           item={track}
           imageSrc={track.album}
           count={index}
+          link={`track:${track.id}`}
         />
       )}
     />

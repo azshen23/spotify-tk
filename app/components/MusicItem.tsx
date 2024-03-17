@@ -1,15 +1,27 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity, Linking } from "react-native";
 import React from "react";
 
 interface MusicItemProps {
   item: any;
   imageSrc: any;
   count: number;
+  link: string;
 }
 
-const MusicItem: React.FC<MusicItemProps> = ({ item, imageSrc, count }) => {
+const MusicItem: React.FC<MusicItemProps> = ({
+  item,
+  imageSrc,
+  count,
+  link,
+}) => {
+  const handlePress = () => {
+    Linking.openURL(`spotify:${link}`);
+  };
   return (
-    <View className="border bg-secondary mb-4 rounded-md flex-row overflow-hidden relative">
+    <TouchableOpacity
+      className="border bg-secondary mb-4 rounded-md flex-row overflow-hidden relative"
+      onPress={handlePress}
+    >
       <Text
         className="text-white font-semibold text-xl"
         style={{
@@ -33,7 +45,7 @@ const MusicItem: React.FC<MusicItemProps> = ({ item, imageSrc, count }) => {
       <View className="pl-8 flex-1  justify-center">
         <Text className="text-white text-xl font-semibold">{item.name}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

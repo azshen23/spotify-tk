@@ -11,6 +11,7 @@ export default function Artists() {
           item={artist}
           imageSrc={artist}
           count={index}
+          link={`artist:${artist.id}`}
         />
       )}
     />
