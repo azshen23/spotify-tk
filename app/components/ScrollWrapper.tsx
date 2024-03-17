@@ -10,7 +10,7 @@ const ScrollWrapper: React.FC<SafeViewProps> = ({ children }) => {
   return (
     <View className="flex-1 bg-tertiary">
       <SafeAreaView className="flex-1" edges={["top"]}>
-        <ScrollView className="bg-tertiary pl-7 pr-7">{children}</ScrollView>
+        <View className="bg-tertiary pl-7 pr-7">{children}</View>
       </SafeAreaView>
     </View>
   );

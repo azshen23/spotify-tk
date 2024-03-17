@@ -19,7 +19,7 @@ const MusicItem: React.FC<MusicItemProps> = ({
   };
   return (
     <TouchableOpacity
-      className="border bg-secondary mb-4 rounded-md flex-row overflow-hidden relative"
+      className="bg-secondary mb-4 rounded-md flex-row overflow-hidden relative"
       onPress={handlePress}
     >
       <Text

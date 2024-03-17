@@ -10,7 +10,7 @@ const TimeFrameSelector: React.FC<TimeFrameSelectorProps> = ({
   setTimeFrame,
 }) => {
   return (
-    <View className="flex-row justify-between pt-5">
+    <View className="flex-row justify-between pt-5 pb-12">
       <Pressable
         className={`rounded-full overflow-hidden pl-7 pr-7 pb-3 pt-3 ${
           timeFrame === "long_term" ? "bg-primary" : "bg-secondary"

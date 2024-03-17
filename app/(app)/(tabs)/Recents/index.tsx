@@ -1,27 +1,22 @@
-import { ActivityIndicator, FlatList, View } from "react-native";
-import { apiRequest } from "../utils/req";
-import { useEffect, useState } from "react";
-import { useStorageState } from "../hooks/useStorageState";
-import TimeFrameSelector from "./TimeFrameSelector";
-import ScrollWrapper from "./ScrollWrapper";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { ActivityIndicator, FlatList } from "react-native";
+import { useStorageState } from "../../../hooks/useStorageState";
+import { apiRequest } from "../../../utils/req";
+import ScrollWrapper from "../../../components/ScrollWrapper";
+import { useQuery } from "react-query";
+import MusicItem from "../../../components/MusicItem";
 
-interface TopItemsProps {
-  baseUrl: string;
-  renderItem: (item: any, index: number) => JSX.Element;
-}
-
-export default function TopItems({ baseUrl, renderItem }: TopItemsProps) {
+const Recents = () => {
   const [accessTokenExpiresAtState, setAccessTokenExpiresAt] = useStorageState(
     "AccessTokenExpiresAt"
   );
   const [refreshTokenState, setRefreshToken] = useStorageState("refreshToken");
   const [sessionState, setSession] = useStorageState("session");
-  const [timeFrame, setTimeFrame] = useState("long_term");
 
   async function fetchData() {
+    const baseUrl =
+      "https://api.spotify.com/v1/me/player/recently-played?limit=50&after=0";
     const response = await apiRequest(
-      `${baseUrl}?time_range=${timeFrame}&limit=50`,
+      `${baseUrl}`,
       accessTokenExpiresAtState[1],
       setAccessTokenExpiresAt,
       refreshTokenState[1],
@@ -40,26 +35,33 @@ export default function TopItems({ baseUrl, renderItem }: TopItemsProps) {
     sessionState[1] !== null &&
     accessTokenExpiresAtState[1] !== null;
 
-  const { data: items } = useQuery(["apiData", timeFrame], fetchData, {
+  const { data: items } = useQuery(["apiData"], fetchData, {
     enabled: shouldFetchData,
     staleTime: 1000 * 60 * 5, // data will be considered fresh for 5 minutes
     cacheTime: 1000 * 60 * 30, // data will be cached for 30 minutes
   });
 
+  const renderItem = (item, index) => (
+    <MusicItem
+      key={index}
+      item={item.track}
+      imageSrc={item.track.album}
+      count={index}
+      link={`track:${item.track.id}`}
+    />
+  );
+
   return (
     <ScrollWrapper>
       <FlatList
+        className="pt-10"
         data={items}
         renderItem={({ item, index }) => renderItem(item, index)}
-        keyExtractor={(item) => item.id}
-        ListHeaderComponent={
-          <TimeFrameSelector
-            timeFrame={timeFrame}
-            setTimeFrame={setTimeFrame}
-          />
-        }
+        keyExtractor={(item, index) => `${item.track.id}-${index}`}
         ListEmptyComponent={<ActivityIndicator size="large" color="#00ff00" />}
       />
     </ScrollWrapper>
   );
-}
+};
+
+export default Recents;
