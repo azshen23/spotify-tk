@@ -42,6 +42,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <FontAwesome5 size={28} name="clock" color={color} />
           ),
+          unmountOnBlur: true,
         }}
       />
     </Tabs>

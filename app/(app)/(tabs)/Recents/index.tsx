@@ -59,6 +59,7 @@ const Recents = () => {
         renderItem={({ item, index }) => renderItem(item, index)}
         keyExtractor={(item, index) => `${item.track.id}-${index}`}
         ListEmptyComponent={<ActivityIndicator size="large" color="#00ff00" />}
+        showsVerticalScrollIndicator={false}
       />
     </ScrollWrapper>
   );

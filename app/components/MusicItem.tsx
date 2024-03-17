@@ -42,7 +42,7 @@ const MusicItem: React.FC<MusicItemProps> = ({
       ) : (
         <Image width={100} height={100} className=" bg-slate-400" />
       )}
-      <View className="pl-8 flex-1  justify-center">
+      <View className="pl-8 flex-1  justify-center mr-10">
         <Text className="text-white text-xl font-semibold">{item.name}</Text>
       </View>
     </TouchableOpacity>

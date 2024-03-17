@@ -24,9 +24,11 @@ export default function AppLayout() {
   // This layout can be deferred because it's not the root layout.
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
+      <SafeAreaProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </SafeAreaProvider>
     </QueryClientProvider>
   );
 }
