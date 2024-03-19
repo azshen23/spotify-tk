@@ -16,23 +16,25 @@ export async function apiRequest(
   session: string,
   setSession: (value: string) => void
 ): Promise<TopArtistsResponseType | Error> {
-  const refreshTheToken = async () => {
-    refreshAsync(
-      {
-        clientId: process.env.EXPO_PUBLIC_CLIENTID,
-        refreshToken: refreshToken,
-      },
-      discovery
-    )
-      .then((response) => {
-        const { accessToken, refreshToken, expiresIn, issuedAt } = response;
-        setAccessTokenExpiresAt(String(expiresIn + issuedAt));
-        setRefreshToken(refreshToken);
-        setSession(accessToken);
+  const refreshTheToken = async (): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      // Your existing code...
+      fetch("https://accounts.spotify.com/api/token", {
+        // ...
       })
-      .catch((e) => {
-        console.log(e);
-      });
+        .then((response) => response.json())
+        .then((response) => {
+          const { accessToken, refreshToken, expiresIn, issuedAt } = response;
+          setAccessTokenExpiresAt(String(expiresIn + issuedAt));
+          setRefreshToken(refreshToken);
+          setSession(accessToken);
+          resolve(); // Resolve the promise when the refresh is successful
+        })
+        .catch((e) => {
+          console.log(e);
+          reject(e); // Reject the promise if the refresh fails
+        });
+    });
   };
 
   // If the access token has expired, refresh it
@@ -49,6 +51,7 @@ export async function apiRequest(
 
     return await response.json();
   } catch (e) {
+    console.log("API request failed", e);
     return e;
   }
 }
