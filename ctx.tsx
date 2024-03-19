@@ -39,6 +39,10 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState("session");
   const [[], setRefreshToken] = useStorageState("refreshToken");
   const [[], setAccessTokenExpiresAt] = useStorageState("accessTokenExpiresAt");
+  const redirectUri =
+    process.env.NODE_ENV === "production"
+      ? "https://spotify-tk.raining.dev.eas.host/--/"
+      : makeRedirectUri({ scheme: "spotify-tk" });
 
   const [request, response, promptAsync] = useAuthRequest(
     {
@@ -54,9 +58,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         "user-read-private",
       ],
       usePKCE: true,
-      redirectUri: makeRedirectUri({
-        scheme: "spotify-tk",
-      }),
+      redirectUri: redirectUri,
     },
     discovery
   );

@@ -1,5 +1,4 @@
 import { refreshAsync } from "expo-auth-session";
-import { useStorageState } from "../hooks/useStorageState";
 
 export const discovery = {
   authorizationEndpoint: "https://accounts.spotify.com/authorize",
