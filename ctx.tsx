@@ -3,12 +3,9 @@ import { useStorageState } from "./app/hooks/useStorageState";
 import {
   makeRedirectUri,
   useAuthRequest,
-  refreshAsync,
-  revokeAsync,
   AuthSessionResult,
   exchangeCodeAsync,
 } from "expo-auth-session";
-import { router } from "expo-router";
 import { discovery } from "./app/utils/req";
 
 const AuthContext = React.createContext<{
@@ -41,7 +38,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const [[], setAccessTokenExpiresAt] = useStorageState("accessTokenExpiresAt");
   const redirectUri =
     process.env.NODE_ENV === "production"
-      ? "spotify-tk://callback"
+      ? "spotify-tk://"
       : makeRedirectUri({ scheme: "spotify-tk" });
 
   const [request, response, promptAsync] = useAuthRequest(
