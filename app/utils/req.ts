@@ -15,23 +15,27 @@ export async function apiRequest(
   session: string,
   setSession: (value: string) => void
 ): Promise<Response | Error> {
-  const refreshTheToken = async () => {
-    refreshAsync(
-      {
-        clientId: process.env.EXPO_PUBLIC_CLIENTID,
-        refreshToken: refreshToken,
-      },
-      discovery
-    )
-      .then((response) => {
-        const { accessToken, refreshToken, expiresIn, issuedAt } = response;
-        setAccessTokenExpiresAt(String(expiresIn + issuedAt));
-        setRefreshToken(refreshToken);
-        setSession(accessToken);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+  const refreshTheToken = async (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      refreshAsync(
+        {
+          clientId: process.env.EXPO_PUBLIC_CLIENTID,
+          refreshToken: refreshToken,
+        },
+        discovery
+      )
+        .then((response) => {
+          const { accessToken, refreshToken, expiresIn, issuedAt } = response;
+          setAccessTokenExpiresAt(String(expiresIn + issuedAt));
+          setRefreshToken(refreshToken);
+          setSession(accessToken);
+          resolve(); // Resolve the promise when the refresh is successful
+        })
+        .catch((e) => {
+          console.log(e);
+          reject(e); // Reject the promise if the refresh fails
+        });
+    });
   };
 
   // If the access token has expired, refresh it
@@ -46,8 +50,10 @@ export async function apiRequest(
       },
     });
 
-    return await response.json();
+    const data = await response.json();
+    return data;
   } catch (e) {
+    console.log("API request failed", e);
     return e;
   }
 }
