@@ -1,6 +1,5 @@
 import { refreshAsync } from "expo-auth-session";
 import { useStorageState } from "../hooks/useStorageState";
-import { TopArtistsResponseType } from "../types/types";
 
 export const discovery = {
   authorizationEndpoint: "https://accounts.spotify.com/authorize",
@@ -15,26 +14,24 @@ export async function apiRequest(
   setRefreshToken: (value: string) => void,
   session: string,
   setSession: (value: string) => void
-): Promise<TopArtistsResponseType | Error> {
-  const refreshTheToken = async (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      // Your existing code...
-      fetch("https://accounts.spotify.com/api/token", {
-        // ...
+): Promise<Response | Error> {
+  const refreshTheToken = async () => {
+    refreshAsync(
+      {
+        clientId: process.env.EXPO_PUBLIC_CLIENTID,
+        refreshToken: refreshToken,
+      },
+      discovery
+    )
+      .then((response) => {
+        const { accessToken, refreshToken, expiresIn, issuedAt } = response;
+        setAccessTokenExpiresAt(String(expiresIn + issuedAt));
+        setRefreshToken(refreshToken);
+        setSession(accessToken);
       })
-        .then((response) => response.json())
-        .then((response) => {
-          const { accessToken, refreshToken, expiresIn, issuedAt } = response;
-          setAccessTokenExpiresAt(String(expiresIn + issuedAt));
-          setRefreshToken(refreshToken);
-          setSession(accessToken);
-          resolve(); // Resolve the promise when the refresh is successful
-        })
-        .catch((e) => {
-          console.log(e);
-          reject(e); // Reject the promise if the refresh fails
-        });
-    });
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   // If the access token has expired, refresh it
@@ -51,7 +48,6 @@ export async function apiRequest(
 
     return await response.json();
   } catch (e) {
-    console.log("API request failed", e);
     return e;
   }
 }
