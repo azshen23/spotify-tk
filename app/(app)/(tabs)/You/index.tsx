@@ -16,7 +16,7 @@ export default function Tracks() {
             }}
           >
             <Text className="text-white font-bold">Sign Out</Text>
-            <Text>{makeRedirectUri({ native: "spotify-tk" })}</Text>
+            <Text>{makeRedirectUri()}</Text>
             <Text>{makeRedirectUri({ scheme: "spotify-tk" })}</Text>
           </TouchableOpacity>
         </View>

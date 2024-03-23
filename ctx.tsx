@@ -38,7 +38,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const [[], setAccessTokenExpiresAt] = useStorageState("accessTokenExpiresAt");
   const redirectUri =
     process.env.NODE_ENV === "production"
-      ? makeRedirectUri({ native: "spotify-tk" })
+      ? makeRedirectUri()
       : makeRedirectUri({ scheme: "spotify-tk" });
 
   const [request, response, promptAsync] = useAuthRequest(
@@ -74,7 +74,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
             exchangeCodeAsync(
               {
                 clientId: process.env.EXPO_PUBLIC_CLIENTID,
-                redirectUri: makeRedirectUri({ scheme: "spotify-tk" }),
+                redirectUri: redirectUri,
                 code: result.params.code,
                 extraParams: {
                   code_verifier: request.codeVerifier || "",
