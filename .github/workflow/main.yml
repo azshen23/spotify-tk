@@ -20,10 +20,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: yarn
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          cache: pnpm
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -32,7 +29,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
-        run: pnpm install
+        run: npx pnpm install
 
       - name: Publish update
         run: eas update --auto
