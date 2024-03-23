@@ -1,5 +1,6 @@
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { useSession } from "../../../../ctx";
+import { makeRedirectUri } from "expo-auth-session";
 
 export default function Tracks() {
   const { signOut } = useSession();
@@ -15,6 +16,8 @@ export default function Tracks() {
             }}
           >
             <Text className="text-white font-bold">Sign Out</Text>
+            <Text>{makeRedirectUri({ native: "spotify-tk" })}</Text>
+            <Text>{makeRedirectUri({ scheme: "spotify-tk" })}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
