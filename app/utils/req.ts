@@ -28,11 +28,10 @@ export async function apiRequest(
           setAccessTokenExpiresAt(String(expiresIn + issuedAt));
           setRefreshToken(refreshToken);
           setSession(accessToken);
-          resolve(); // Resolve the promise when the refresh is successful
         })
         .catch((e) => {
           console.log(e);
-          reject(e); // Reject the promise if the refresh fails
+          throw e; // Throw the error to be caught in the outer function
         });
     });
   };
