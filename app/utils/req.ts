@@ -28,16 +28,20 @@ export async function apiRequest(
           setAccessTokenExpiresAt(String(expiresIn + issuedAt));
           setRefreshToken(refreshToken);
           setSession(accessToken);
+          resolve(); // Resolve the Promise
         })
         .catch((e) => {
           console.log(e);
-          throw e; // Throw the error to be caught in the outer function
+          reject(e); // Reject the Promise
         });
     });
   };
 
   // If the access token has expired, refresh it
-  if (new Date().getTime() / 1000 > Number(accessTokenExpiresAt)) {
+  if (
+    new Date().getTime() / 1000 > Number(accessTokenExpiresAt) ||
+    refreshToken === null
+  ) {
     await refreshTheToken();
   }
 

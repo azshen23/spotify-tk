@@ -35,10 +35,8 @@ export default function TopItems({ baseUrl, renderItem }: TopItemsProps) {
     throw new Error("API request failed");
   }
 
-  const shouldFetchData =
-    refreshTokenState[1] !== null &&
-    sessionState[1] !== null &&
-    accessTokenExpiresAtState[1] !== null;
+  const shouldFetchData = sessionState[1] !== null;
+
   console.log(shouldFetchData);
 
   const { data: items } = useQuery(["apiData", timeFrame], fetchData, {
