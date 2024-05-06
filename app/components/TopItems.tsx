@@ -13,7 +13,7 @@ interface TopItemsProps {
 
 export default function TopItems({ baseUrl, renderItem }: TopItemsProps) {
   const [accessTokenExpiresAtState, setAccessTokenExpiresAt] = useStorageState(
-    "AccessTokenExpiresAt"
+    "accessTokenExpiresAt"
   );
   const [refreshTokenState, setRefreshToken] = useStorageState("refreshToken");
   const [sessionState, setSession] = useStorageState("session");
@@ -39,6 +39,7 @@ export default function TopItems({ baseUrl, renderItem }: TopItemsProps) {
     refreshTokenState[1] !== null &&
     sessionState[1] !== null &&
     accessTokenExpiresAtState[1] !== null;
+  console.log(shouldFetchData);
 
   const { data: items } = useQuery(["apiData", timeFrame], fetchData, {
     enabled: shouldFetchData,

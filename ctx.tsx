@@ -99,6 +99,8 @@ export function SessionProvider(props: React.PropsWithChildren) {
         },
         signOut: () => {
           setSession(null);
+          setRefreshToken(null);
+          setAccessTokenExpiresAt(null);
         },
         session,
         isLoading,
