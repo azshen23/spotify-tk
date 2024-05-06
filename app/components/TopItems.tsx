@@ -37,8 +37,6 @@ export default function TopItems({ baseUrl, renderItem }: TopItemsProps) {
 
   const shouldFetchData = sessionState[1] !== null;
 
-  console.log(shouldFetchData);
-
   const { data: items } = useQuery(["apiData", timeFrame], fetchData, {
     enabled: shouldFetchData,
     staleTime: 1000 * 60 * 5, // data will be considered fresh for 5 minutes
