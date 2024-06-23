@@ -39,7 +39,7 @@ export async function apiRequest(
 
   // If the access token has expired, refresh it
   if (
-    new Date().getTime() / 1000 > Number(accessTokenExpiresAt) ||
+    new Date().getTime() / 1000 > Number(accessTokenExpiresAt) - 600 ||
     refreshToken === null
   ) {
     await refreshTheToken();
