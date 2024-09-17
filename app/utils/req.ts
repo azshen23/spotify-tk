@@ -37,12 +37,18 @@ export async function apiRequest(
     });
   };
 
-  // If the access token has expired, refresh it
+  // Always check and refresh the token before making the API request
   if (
     new Date().getTime() / 1000 > Number(accessTokenExpiresAt) - 600 ||
-    refreshToken === null
+    refreshToken === null ||
+    !session
   ) {
-    await refreshTheToken();
+    try {
+      await refreshTheToken();
+    } catch (e) {
+      console.log("Token refresh failed", e);
+      return e;
+    }
   }
 
   try {
